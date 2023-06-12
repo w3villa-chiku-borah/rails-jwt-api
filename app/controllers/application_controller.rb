@@ -16,4 +16,24 @@ class ApplicationController < ActionController::API
              
          end
     end
+    
+    def authorized_user
+
+        decode_token = decode_token()
+
+        if decode_token
+            user_id = decode_token[0]['user_id']
+            @user = User.find_by(id: user_id)
+        end
+      
+    end
+
+
+    def authorized 
+        render json: {message: 'you have to login'} , status: :unauthorized  unless 
+        authorized_user
+    end 
+      
+    
+
 end
